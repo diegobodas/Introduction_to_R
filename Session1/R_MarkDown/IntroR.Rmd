@@ -1,0 +1,169 @@
+---
+title: "IntroR"
+author: "Diego J. Bodas Sagi"
+date: "27 Sept 2016"
+output: html_document
+---
+
+![](https://www.bbvadata.com/wp-content/uploads/2016/07/bbvada_logo.png)
+
+# Basic R Markdown
+
+Install the rmarkdown package
+
+This is a latex equation, $E = mc^{2}$
+
+This is a inline code `print("this is an inline code")`
+
+Set echo = TRUE if you want to include source code in the output
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Some first Code examples (R course)
+
+R packages implement fuctions. You can install packages from repositories using:
+
+```{r}
+#install.packages('Rcpp', repos = 'http://cran.us.r-project.org')
+# commented
+```
+
+You have to check installation path or library
+
+## Examples with dev-tools
+
+Why to explain dev-tools? Because, it needs compilation. Devtools is designed for package developers and provide R functions that simplify many common tasks. You need to install dependencies.
+
+### Requisites
+On Windows: Install Rtools
+On Mac: Install Xcode from the Mac App Store
+On Linux: Install a compiler and various development libraries
+
+### How to install
+
+```{r}
+#install.packages("devtools", type = "source", dependencies = TRUE, repos = 'http://cran.us.r-project.org')
+# commented
+```
+
+Do not worry if it requires restart the R session.
+
+You can test instalation loading the package.
+
+```{r}
+# library(devtools) 
+```
+
+Other way to load packages is to use the require function:
+
+```{r}
+# require(devtools) 
+```
+
+It also works!!!, but what is the different???????
+
+library: if the package can't be loaded, it returns an error. Require try to load the package, does not return an error. 
+
+## Unload a package
+
+You can unload a package using the function *detach()*
+```{r}
+# detach("package:devtools", unload = TRUE)
+```
+
+## Advance package management, and some data structures and functions ;-)
+
+To install several packages use the following code (note: "<-"):
+
+```{r}
+packages.to.install <- c("plyr", "psych", "tm", "Rcpp", "devtools") # c is a vector
+```
+
+But only install the missing packages...
+
+```{r}
+packages.to.install <- c("plyr", "psych", "tm") # c is a vector
+new.packages <- packages.to.install[!(packages.to.install %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+# detach() function to unload
+```
+
+To apply function to all elements in vector (and load all):
+
+```{r}
+if(length(new.packages)) lapply(new.packages, library, character.only = TRUE)
+```
+
+If you want to list all packages in memory:
+
+```{r}
+packages.in.memory <- names(sessionInfo()$otherPkgs)
+```
+
+You can see results in *Global Environment*
+
+How to concat or paste a vector in R:
+
+```{r}
+packages.in.memory <- paste('package:', packages.in.memory, sep = "")
+```
+
+If you want to print in console:
+
+```{r}
+packages.in.memory
+```
+
+Or print in console
+
+```{r}
+print(packages.in.memory)
+```
+
+
+And, finally, clean memory
+
+```{r}
+rm(list = ls(all = TRUE))
+```
+
+# The eval() function
+
+This function allows to evaluate an expression. For example:
+
+`eval(paste("cadena 1", "cadena 2", sep = ' - '))`
+
+You can also evaluate a string
+
+`eval(parse(text = "2*10"))`
+
+Check the difference 
+
+`eval("5+5")`
+
+# The expression() function
+
+You can create your own expressions and evaluate later
+
+```{r}
+x <- expression(sin(pi/2))
+x
+eval(x)
+```
+
+
+# Basic Plots
+
+In the next class, we are going to work with the ggplot package. Now, an easy graph:
+
+
+```{r}
+plot(cars, xlab = "Speed (mph)", ylab = "Stopping distance (ft)", las = 1)
+```
+
+The end, thanks you.
+
+
+
